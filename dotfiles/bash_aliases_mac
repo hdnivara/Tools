@@ -1,0 +1,147 @@
+#
+# File	 : bash_aliases
+# Desc   : Utilities for Mac OS X Bash shell
+# Author : Aravindhan Dhanasekaran
+#
+
+
+#
+# Environment
+#
+export PS1='\W $ '
+export PS2='\u@\h:\W $'
+export PATH="$PATH:/usr/local/bin/"
+export EDITOR=/usr/bin/vim
+export BLOCKSIZE=1k
+export CLICOLOR=1
+export LSCOLORS=GxFxBxDxCxegedabagacad
+
+
+#
+# Better Terminal
+#
+alias ..="cd ../ && pwd"
+alias ...="cd ../../ && pwd"
+alias .3="cd ../../../ && pwd"
+alias .4="cd ../../../../ && pwd"
+alias cp='cp -iv'       # confirm, verbose
+alias mv='mv -iv'       # confirm, verbose
+alias rm='rm -iv'       # confirm, verbose
+alias mkdir='mkdir -pv' # create, verbose
+alias ls="pwd && ls -FG"
+alias lsl="pwd && ls -FGlhp"
+alias lsld="pwd && ls -l | egrep ^d"
+alias vrid='dirs -v'
+alias dgrep='egrep --color=auto --line-number --with-filename '
+alias hgrep='history | grep --color=auto'
+alias pgrep='pgrep -l'
+alias ddiff='colordiff'
+alias dping='ping -c 4'
+alias fping='ping -c 4 -s.2'
+alias dports='netstat -tulanp'
+alias cls='clear && pwd'
+alias addate='date +%G%m%e-%H%M%S'
+
+# Utils
+function ut-colors() {
+    for i in {0..255} ; do
+        printf "\x1b[38;5;${i}mcolour${i}\n"
+    done
+}
+
+# Search manpage of '1' for given term in '$2'.
+# Displays result in coloured search terms with 4 lines of context.
+# Example: "mans fork return" would search the manpage of 'fork' for 'return'.
+mans() {
+    man $1 | grep -iC4 --color=always $2
+}
+
+
+#
+# Networking
+#
+alias flush-dns='dscacheutil -flushcache'       # Flush DNS cache
+alias lsock='sudo lsof -i -P'                   # Open sockets
+alias lsocku='sudo lsof -nP | egrep UDP | less'        # Open UDP sockets
+alias lsockt='sudo lsof -nP | grep TCP'         # Open TCP sockets
+alias lsockl='sudo lsof -i | grep LISTEN'       # Open listening connections
+
+#
+# Process Management
+#
+alias top='top'
+alias psmem='ps auxf | sort -nr -k 4 | less'
+alias pscpu='ps auzf | sort -nr -k 3'
+alias psuser='ps hax -o user | sort | uniq -c | sort -rn'
+
+# Resource hoggers
+alias mem-hogs='top -l 1 -o rsize | head -20'
+alias mem-hogs-ps='ps wwaxm -o pid,stat,vsize,rss,time,command | head -10'
+alias cpu-hogs='ps wwaxr -o pid,stat,%cpu,time,command | head -10'
+
+function adbgkill() {
+    for i in `seq 1 $1`; do
+        `kill -9 %$i`
+    done
+}
+
+
+#
+# Tmux Shortcuts 
+#
+alias tmn='tmux new -s'
+alias tml='tmux list-sessions'
+alias tmk='tmux kill-session -t'
+alias tma='tmux attach -d -t'
+
+#
+# Software Development
+#
+
+# cscope
+alias dscope='cscope -q -p4'
+ut-build-cscope() {
+    rm -f cscope.*
+    find . -name "*.c" -o -name "*.h" > cscope.files
+    cscope -bqR -i cscope.files
+    
+    rm -f tags
+    ctags -R --links=no *
+}
+
+# svn
+alias svn-status="svn status -q | egrep 'M|A|C'"
+alias snv-diff="svn diff ${@} | less"
+
+function svn-rev() { 
+    cmd="svn log -v -r $1"
+    echo $cmd
+    $cmd
+}
+
+function svn-rev-diff() { 
+    cmd="svn diff -c $1"
+    echo $cmd
+    $cmd
+}
+
+function svn-rev-user() {
+    cmd="svn log | sed -n '/ | $1 | /,/-----$/ p'"
+    echo $cmd
+    $(cmd)
+}
+
+function svn-rev-files() {
+    rev=$1
+    old_rev=`expr $rev - 1`
+    cmd="svn diff --summarize -r$rev:$old_rev"
+    echo $cmd
+    $cmd
+}
+
+
+#
+# References
+#
+
+# https://gist.github.com/natelandau/10654137
