@@ -1,0 +1,55 @@
+"
+" Name   : vimrc
+" Desc   : VIM configuration file
+" Author : Aravindhan Dhanasekaran
+"
+
+set nocompatible                " pure 'vim' and not 'vi'
+
+" Spaces and tabs
+set tabstop=4                   " number of visual spaces per tab
+set shiftwidth=4
+"set softtabstop=4               " number of spaces in tab when editing
+set expandtab                   " tabs are visual spaces
+
+" UI config
+set bg=dark                     " dark backgrounmd, light foreground
+"set bg=light                    " light background
+set t_md=                       " disable bold fontface
+"set number                      " show line numbers
+set ruler                       " show line and column numbers
+set showcmd                     " show command in bottom bar
+set cursorline                  " highlight current line
+set wildmenu                    " visual autocomplete for command menu
+set showmatch                   " highlight matching [{()}]
+set backspace=indent,eol,start  " allow bksp in diff. cursor positions
+filetype indent on              " load filetype-specific indent files
+syntax enable                   " enable syntax color/processing
+"syntax off
+colorscheme slate               " Nice yellow and red colors on black screen
+
+" statusline
+set laststatus=2                " always display status bar 
+set statusline=\ %f%m%r%h%w\ %=%({%{&ff}\|%{(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\")}%k\|%Y}%)\ %([%v:%l/%L][%p%%]\ %)
+
+" Searching
+set incsearch                   " search as chars are entered
+set hlsearch                    " highlight matches
+nnoremap <C-/> :/\s\+$
+
+
+" Misc. Utilities
+" Paste toggle kemap
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
+set showmode
+
+" Set visual column delimiter
+if exists('+colorcolumn')
+    " Use the newer slick looking vertiacal line
+    set colorcolumn=79
+else
+    " Use the ugly text highlight
+    au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>79v.\+', -1)
+endif
+
