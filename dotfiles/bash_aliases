@@ -4,10 +4,21 @@
 # Author : Aravindhan Dhanasekaran
 #
 
-# Set the terminal prompt to 'u@h:dir $'
-#PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\W\[\033[00m\]\$ '
 
+#
+# Environment
+#
+export PS1='\u@\h:\W $ '
+export PS2='\W $ '
+export PATH="$PATH:/usr/local/bin/"
+export EDITOR=/usr/bin/vim
+export BLOCKSIZE=1k
+export LS_COLORS='rs=0:di=01;36:ln=01;36:mh=00:pi=40;33'
+
+
+#
 # Better Terminal
+#
 alias ..="cd ../ && pwd"
 alias ...="cd ../../ && pwd"
 alias cp='cp -iv'       # confirm, verbose
@@ -29,6 +40,8 @@ alias fping='ping -c 5 -s.2'
 alias dports='netstat -tulanp'
 alias cls='clear && pwd'
 alias addate='date +%G%m%e-%H%M%S'
+alias df='df -Th --total'
+alias du='du -ch | sort -h'
 
 # Utils
 function ut-colors() {
@@ -37,21 +50,50 @@ function ut-colors() {
     done
 }
 
-#alias dscope='cscope -bqRk && ctags -R && cscope -dq -p4'
-alias dscope='cscope -q -p4'
-ut-build-cscope() {
-    rm -f cscope.*
-    find . -name "*.c" -o -name "*.h" > cscope.files
-    cscope -bqR -i cscope.files
-    
-    rm -f tags
-    ctags -R --links=no *
+function extract {
+ if [ -z "$1" ]; then
+    # display usage if no parameters given
+    echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+ else
+    if [ -f $1 ] ; then
+        # NAME=${1%.*}
+        # mkdir $NAME && cd $NAME
+        case $1 in
+          *.tar.bz2)   tar xvjf ../$1    ;;
+          *.tar.gz)    tar xvzf ../$1    ;;
+          *.tar.xz)    tar xvJf ../$1    ;;
+          *.lzma)      unlzma ../$1      ;;
+          *.bz2)       bunzip2 ../$1     ;;
+          *.rar)       unrar x -ad ../$1 ;;
+          *.gz)        gunzip ../$1      ;;
+          *.tar)       tar xvf ../$1     ;;
+          *.tbz2)      tar xvjf ../$1    ;;
+          *.tgz)       tar xvzf ../$1    ;;
+          *.zip)       unzip ../$1       ;;
+          *.Z)         uncompress ../$1  ;;
+          *.7z)        7z x ../$1        ;;
+          *.xz)        unxz ../$1        ;;
+          *.exe)       cabextract ../$1  ;;
+          *)           echo "extract: '$1' - unknown archive method" ;;
+        esac
+    else
+        echo "$1 - file does not exist"
+    fi
+fi
 }
 
-# Networking
 
+#
+# Networking
+#
+
+
+#
 # Process Management
+#
 alias top='top'
+alias free='free -mth'
+alias psg="ps aux | grep -v grep | grep -i -e VSZ -e"
 alias psmem='ps auxf | sort -nr -k 4 | less'
 alias pscpu='ps auzf | sort -nr -k 3'
 alias psuser='ps hax -o user | sort | uniq -c | sort -rn'
@@ -64,25 +106,41 @@ function adbgkill() {
     done
 }
 
-# Tmux Shortcuts 
+
+#
+# Software Development
+#
+
+# tmux
 alias tmn='tmux new -s'
 alias tml='tmux list-sessions'
 alias tmk='tmux kill-session -t'
 alias tma='tmux attach -d -t'
 
+# csope
+alias dscope='cscope -q -p4'
+ut-build-cscope() {
+    rm -f cscope.*
+    find . -name "*.c" -o -name "*.h" > cscope.files
+    cscope -bqR -i cscope.files
+
+    rm -f tags
+    ctags -R --links=no *
+}
 
 # svn
-#alias svn-log="svn log --stop-on-copy ${@:1} | less"
 #alias svn-diff="svn diff $(@:1) | less"
 alias svn-status="svn status -q | egrep 'M|A|C'"
 alias snv-diff="svn diff ${@} | less"
 function svn-rev() { cmd="svn log -v -r $1"; echo $cmd; $cmd; }
 function svn-rev-diff() { cmd="svn diff -c $1"; echo $cmd; $cmd; }
+
 function svn-rev-user() {
     cmd="svn log | sed -n '/ | $1 | /,/-----$/ p'"
     echo $cmd
     $(cmd)
 }
+
 function svn-rev-files() {
     rev=$1
     old_rev=`expr $rev - 1`
@@ -90,3 +148,11 @@ function svn-rev-files() {
     echo $cmd
     $cmd
 }
+
+
+#
+# References
+#
+
+# LS_COLORS: http://linux-sxs.org/housekeeping/lscolors.html
+# https://www.digitalocean.com/community/tutorials/an-introduction-to-useful-bash-aliases-and-functions
