@@ -14,7 +14,7 @@ export PATH="$PATH:/usr/local/bin/"
 export EDITOR=/usr/bin/vim
 export BLOCKSIZE=1k
 export LS_COLORS='rs=0:di=01;36:ln=01;36:mh=00:pi=40;33'
-
+export WORKON_HOME=$HOME/.virtualenvs
 
 #
 # Better Terminal
@@ -86,6 +86,11 @@ fi
 #
 # Networking
 #
+alias lsock='lsof -iP'                  # Open sockets
+alias lsocku='lsof -nP | grep UDP'      # Open UDP sockets
+alias lsockt='lsof -nP | grep TCP'      # Open TCP sockets
+alias lsocktl='lsof -i | grep LISTEN'   # Open TCP listening connections
+alias lsockte='lsof -i | grep ESTABL'   # Open TCP established connections
 
 
 #
