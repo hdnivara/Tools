@@ -8,7 +8,7 @@
 #
 # Environment
 #
-export PS1='\W $ '
+export PS1="\[\e[33m\]\u\[\e[m\]\[\e[33m\]@\[\e[m\]\[\e[33m\]\h\[\e[m\]\[\e[33m\]:\[\e[m\]\[\e[35m\]\W\[\e[m\]\\$ "
 export PS2='\u@\h:\W $'
 export PATH="$PATH:/usr/local/bin/"
 export EDITOR=/usr/bin/vim
@@ -37,7 +37,7 @@ alias hgrep='history | grep --color=auto'
 alias pgrep='pgrep -l'
 alias ddiff='colordiff'
 alias dping='ping -c 4'
-alias fping='ping -c 4 -s.2'
+alias fping='ping -c 4 -i 0.2'
 alias dports='netstat -tulanp'
 alias cls='clear && pwd'
 alias addate='date +%G%m%e-%H%M%S'
