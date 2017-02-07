@@ -124,7 +124,7 @@ alias tmk='tmux kill-session -t'
 alias tma='tmux attach -d -t'
 
 # cscope
-alias dscope='cscope -q -p4'
+alias dcscope='cscope -q -p4'
 bcscope() {
     rm -f cscope.*
     find . -name "*.c" -o -name "*.h" > cscope.files
