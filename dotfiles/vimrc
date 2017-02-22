@@ -1,20 +1,56 @@
-"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Name   : vimrc
 " Desc   : VIM configuration file
 " Author : Aravindhan Dhanasekaran
-"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set nocompatible                " pure 'vim' and not 'vi'
 
-" Spaces and tabs
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Vundle Stuff
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+filetype off
+
+" Set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+" Add all your plugins here
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'vim-scripts/indentpython.vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'nvie/vim-flake8'
+Plugin 'scrooloose/nerdtree'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Navigation
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Spaces & Tabs
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set tabstop=4                   " number of visual spaces per tab
 set shiftwidth=4
-"set softtabstop=4               " number of spaces in tab when editing
+set softtabstop=4               " number of spaces in tab when editing
 set expandtab                   " tabs are visual spaces
 
-" UI config
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" UI Config
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set bg=dark                     " dark backgrounmd, light foreground
-"set bg=light                    " light background
 set t_md=                       " disable bold fontface
 "set number                      " show line numbers
 set ruler                       " show line and column numbers
@@ -25,20 +61,32 @@ set showmatch                   " highlight matching [{()}]
 set backspace=indent,eol,start  " allow bksp in diff. cursor positions
 filetype indent on              " load filetype-specific indent files
 syntax enable                   " enable syntax color/processing
-"syntax off
 colorscheme slate               " Nice yellow and red colors on black screen
 
 " statusline
 set laststatus=2                " always display status bar 
 set statusline=\ %f%m%r%h%w\ %=%({%{&ff}\|%{(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\")}%k\|%Y}%)\ %([%v:%l/%L][%p%%]\ %)
 
-" Searching
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Search
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set incsearch                   " search as chars are entered
 set hlsearch                    " highlight matches
 nnoremap <C-/> :/\s\+$
 
 
-" Misc. Utilities
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Code Folding
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set foldmethod=indent
+set foldlevel=99
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Misc Utilities
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " Paste toggle kemap
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
@@ -53,3 +101,18 @@ else
     au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>79v.\+', -1)
 endif
 
+" Python PEP-8
+au BufNewFile,BufRead *.py
+    \ set tabstop=4
+    \ softtabstop=4
+    \ shiftwidth=4
+    \ textwidth=79
+    \ expandtab
+    \ autoindent
+    \ fileformat=unix
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" References
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Vundle & Python: https://realpython.com/blog/python/vim-and-python-a-match-made-in-heaven/
