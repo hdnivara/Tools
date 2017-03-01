@@ -123,15 +123,17 @@ alias tml='tmux list-sessions'
 alias tmk='tmux kill-session -t'
 alias tma='tmux attach -d -t'
 
-# cscope
+# cscope and ctags
 alias dcscope='cscope -q -p4'
-bcscope() {
+ccscope() {
     rm -f cscope.*
+    rm -f tags
+}
+bcscope() {
+    ccscope
     find . -name "*.c" -o -name "*.h" > cscope.files
     find . -name "*.rw" -o -name "*.rh" >> cscope.files
     cscope -bqR -i cscope.files
-
-    rm -f tags
     ctags -R --links=no *
 }
 
