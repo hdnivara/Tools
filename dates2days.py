@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 Calculate the number of days between dates.
 """
