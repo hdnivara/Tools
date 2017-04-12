@@ -9,7 +9,6 @@
 # Environment
 #
 export PS1="\[\e[33m\]\u\[\e[m\]\[\e[33m\]@\[\e[m\]\[\e[33m\]\h\[\e[m\]\[\e[33m\]:\[\e[m\]\[\e[35m\]\W\[\e[m\]\\$ "
-#export PS1='\u@\h:\W $ '
 export PS2='\W $ '
 export PATH="$PATH:/usr/local/bin/"
 export EDITOR=/usr/bin/vim
@@ -60,9 +59,9 @@ function extract {
         # NAME=${1%.*}
         # mkdir $NAME && cd $NAME
         case $1 in
-          *.tar.bz2)   tar xvjf ../$1    ;;
-          *.tar.gz)    tar xvzf ../$1    ;;
-          *.tar.xz)    tar xvJf ../$1    ;;
+          *.tar.bz2)   tar xvjf $1    ;;
+          *.tar.gz)    tar xvzf $1    ;;
+          *.tar.xz)    tar xvJf $1    ;;
           *.lzma)      unlzma ../$1      ;;
           *.bz2)       bunzip2 ../$1     ;;
           *.rar)       unrar x -ad ../$1 ;;
@@ -130,33 +129,21 @@ ccscope() {
     rm -f tags
 }
 bcscope() {
+    echo -n "Cleaning cscope... "
     ccscope
+    echo "Done"
+
+    echo -n "Building cscope... "
     find . -name "*.c" -o -name "*.h" > cscope.files
     find . -name "*.rw" -o -name "*.rh" >> cscope.files
     cscope -bqR -i cscope.files
+    echo "Done"
+
+    echo -n "Building ctags... "
     ctags -R --links=no *
+    echo "Done"
 }
-
-# svn
-#alias svn-diff="svn diff $(@:1) | less"
-alias svn-status="svn status -q | egrep 'M|A|C'"
-alias snv-diff="svn diff ${@} | less"
-function svn-rev() { cmd="svn log -v -r $1"; echo $cmd; $cmd; }
-function svn-rev-diff() { cmd="svn diff -c $1"; echo $cmd; $cmd; }
-
-function svn-rev-user() {
-    cmd="svn log | sed -n '/ | $1 | /,/-----$/ p'"
-    echo $cmd
-    $(cmd)
-}
-
-function svn-rev-files() {
-    rev=$1
-    old_rev=`expr $rev - 1`
-    cmd="svn diff --summarize -r$rev:$old_rev"
-    echo $cmd
-    $cmd
-}
+alias ncscope='bcscope && dcscope'
 
 
 #
