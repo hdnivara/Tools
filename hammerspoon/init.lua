@@ -5,6 +5,13 @@ Hammerspoon configuration file
 -- Hotkeys
 local mash = {"cmd", "alt", "ctrl"}
 
+
+-- Reload Hammerspoon config
+hs.hotkey.bind(mash, "R", function()
+    hs.reload()
+end)
+hs.alert.show("Hammerspoon config re-loaded!")
+
 -- Hello, world!
 hs.hotkey.bind(mash, "W", function()
     -- Heads-up display notification
