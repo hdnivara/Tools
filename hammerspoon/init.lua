@@ -21,3 +21,6 @@ hs.hotkey.bind(mash, "W", function()
     hs.notify.new({title="Hammerspoon",
         informativeText="Hello, Hammerspoon world!"}):send()
 end)
+
+-- Window hints / selector
+hs.hotkey.bind(mash, ".", hs.hints.windowHints)
