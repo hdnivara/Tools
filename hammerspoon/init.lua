@@ -2,8 +2,11 @@
 Hammerspoon configuration file
 --]]
 
+-- Hotkeys
+local mash = {"cmd", "alt", "ctrl"}
+
 -- Hello, world!
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
+hs.hotkey.bind(mash, "W", function()
     -- Heads-up display notification
     hs.alert.show("Hello, Hammerspoon world!")
 
