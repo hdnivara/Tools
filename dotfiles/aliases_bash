@@ -21,6 +21,8 @@ export WORKON_HOME=$HOME/.virtualenvs
 #
 alias ..="cd ../ && pwd"
 alias ...="cd ../../ && pwd"
+alias .3="cd ../../../ && pwd"
+alias .4="cd ../../../../ && pwd"
 alias cp='cp -iv'       # confirm, verbose
 alias mv='mv -iv'       # confirm, verbose
 alias rm='rm -iv'       # confirm, verbose
