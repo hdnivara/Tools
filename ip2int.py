@@ -1,4 +1,5 @@
 #!/usr/bin/python
+
 """
 Convert an IPv4 address from string to integer.
 """
