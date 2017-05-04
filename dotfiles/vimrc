@@ -97,6 +97,14 @@ else
     au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>79v.\+', -1)
 endif
 
+" Remove all trailing whitespace
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+command! TrimWhitespace call TrimWhitespace()
+
 " Python PEP-8
 au BufNewFile,BufRead *.py
     \ set tabstop=4
@@ -115,3 +123,4 @@ set noshowmode              " don't disply current mode (insert/visual)
 " References
 "
 " Vundle & Python: https://realpython.com/blog/python/vim-and-python-a-match-made-in-heaven/
+" Remove trailing whitespace: https://vi.stackexchange.com/a/456
