@@ -21,9 +21,11 @@ Plugin 'gmarik/Vundle.vim'
 " Add all your plugins here
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/indentpython.vim'
-Plugin 'scrooloose/syntastic'
+"Plugin 'scrooloose/syntastic'
 Plugin 'nvie/vim-flake8'
 Plugin 'scrooloose/nerdtree'
+Plugin 'vim-airline/vim-airline'
+Plugin 'tpope/vim-fugitive'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -54,7 +56,7 @@ set bg=dark                     " dark backgrounmd, light foreground
 set t_md=                       " disable bold fontface
 "set number                      " show line numbers
 set ruler                       " show line and column numbers
-set showcmd                     " show command in bottom bar
+"set showcmd                     " show command in bottom bar
 set cursorline                  " highlight current line
 set wildmenu                    " visual autocomplete for command menu
 set showmatch                   " highlight matching [{()}]
@@ -110,6 +112,9 @@ au BufNewFile,BufRead *.py
     \ expandtab
     \ autoindent
     \ fileformat=unix
+
+
+set noshowmode              " don't disply current mode (insert/visual)
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
