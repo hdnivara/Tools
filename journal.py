@@ -30,11 +30,11 @@ def __parse_args():
 
 def print_journal(start_day, month, year):
     """ Print date and day in ISO 8601 format. """
-    print start_day, month, year
     cal = calendar.Calendar()
     print '=' * 80
 
-    for date in sorted((date for date in cal.itermonthdates(year, month))):
+    for date in sorted((date for date in cal.itermonthdates(year, month)),
+                        reverse=True):
         if not date.month == month:
             continue
 
