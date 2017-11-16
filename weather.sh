@@ -15,7 +15,8 @@ set -e
 weather=$(curl --silent $WEATHER_BASE_URL$WEATHER_PARAMS_URL)
 
 city=$(echo "$weather" | jq .name | tr -d '"')
-temperature="$(echo "$weather" | jq .main.temp)°C"
-wind_speed="$(echo "$weather" | jq .wind.speed | awk '{print int($1+0.5)}')mph"
+desc="$(echo "$weather" | jq .weather[0].main | sed 's/\"//g')"
+temperature="$(echo "$weather" | jq .main.temp)°F"
+wind_speed="$(echo "$weather" | jq .wind.speed | awk '{print int($1+0.5)}') MPH"
 
-printf "%s" "$city: $temperature, $wind_speed"
+printf "%s" "$city: $desc, $temperature, $wind_speed"
